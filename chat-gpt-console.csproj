@@ -3,13 +3,36 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>chat_gpt_console</RootNamespace>
+    <RootNamespace>ChatGptConsole</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <Version>0.1.0</Version>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>gpt</ToolCommandName>
+    <PackageName>chat-gpt-console</PackageName>
+    <PackageOutputPath>./bin/tool-nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
 
+  <Target Name="Install" DependsOnTargets="Clean;Pack">
+    <Exec Command="dotnet tool install --global --add-source $(PackageOutputPath) $(PackageName)" />
+  </Target>
+
+  <Target Name="Update" DependsOnTargets="Clean;Pack">
+    <Exec Command="dotnet tool update --global --add-source $(PackageOutputPath) $(PackageName)" />
+  </Target>
+
+  <Target Name="Uninstall">
+    <Exec Command="dotnet tool uninstall --global $(PackageName)" />
+  </Target>
+
+  <Target Name="Reinstall" DependsOnTargets="Uninstall;Install"></Target>
+
+  <Target Name="CleanTool" AfterTargets="Clean">
+    <RemoveDir Directories="$(PackageOutputPath);" />
+  </Target>
 </Project>
