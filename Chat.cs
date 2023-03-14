@@ -63,7 +63,12 @@ class ChatStore
     }
 }
 
-class Chat
+interface IChat
+{
+    string Talk(string message);
+}
+
+class Chat : IChat
 {
     private readonly API api;
     private readonly ChatStore history;
@@ -86,12 +91,12 @@ class Chat
     }
 
 
-    public void Talk(string message)
+    public string Talk(string message)
     {
         history.Add(new Message("user", message));
         var resp = api.SendAsync(history.GetAll()).Result;
         history.Add(resp);
 
-        Console.WriteLine(resp.Content);
+        return resp.Content;
     }
 }
