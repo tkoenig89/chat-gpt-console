@@ -1,6 +1,5 @@
 ﻿using System.CommandLine;
 using ChatGptConsole;
-using ChatGptConsole.Commands;
 using Spectre.Console;
 
 var rootCommand = new RootCommand();
