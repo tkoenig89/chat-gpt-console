@@ -18,12 +18,12 @@ class ChatStore
         Save();
     }
 
-    public IEnumerable<OpenAi.Message> GetAll()
+    public List<OpenAi.Message> GetAll()
     {
         return messages;
     }
 
-    public static void Clear(string chatKey)
+    public void Clear()
     {
         var filePath = GetFilePath(chatKey);
         if (File.Exists(filePath))

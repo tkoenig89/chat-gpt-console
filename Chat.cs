@@ -32,4 +32,14 @@ class Chat : IChat
 
         return resp.Content;
     }
+
+    public List<Message> GetHistory()
+    {
+        return history.GetAll();
+    }
+
+    public void ClearHistory()
+    {
+        history.Clear();
+    }
 }
