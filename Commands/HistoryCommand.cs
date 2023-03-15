@@ -25,6 +25,7 @@ class HistoryCommand : Command
         if (clear)
         {
             chat.ClearHistory();
+            AnsiConsole.MarkupLine("[dim]History has been cleared.[/]");
             return;
         }
 
@@ -36,7 +37,7 @@ class HistoryCommand : Command
 
         foreach (var he in history)
         {
-            AnsiConsole.MarkupLineInterpolated($"[bold #BBB]{he.Role}[/]\n[#FFF]{he.Content}[/]\n");
+            AnsiConsole.MarkupLineInterpolated($"[bold underline dim]{he.Role}[/]\n[italic]{he.Content}[/]\n");
         }
     }
 }

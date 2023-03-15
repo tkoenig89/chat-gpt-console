@@ -11,11 +11,11 @@ class GptCommand : RootCommand
     {
         chat = new CodeChat();
 
-        var apiKeyOption = new Option<string?>(new string[] { "-a", "--api-key" }, "openAI API Key");
-        AddOption(apiKeyOption);
-
         var historyCommand = new HistoryCommand();
         AddCommand(historyCommand);
+
+        var apiKeyOption = new Option<string?>(new string[] { "-a", "--api-key" }, "openAI API Key");
+        AddOption(apiKeyOption);
 
         var messageArgument = new Argument<string?>("message", () => null, "prompt or question for instant gpt query");
         AddArgument(messageArgument);
@@ -40,16 +40,6 @@ class GptCommand : RootCommand
         var resp = chat.Talk(msg);
         AnsiConsole.WriteLine(resp);
     }
-
-    private void ShowHistory(bool showHistory)
-    {
-        var history = chat.GetHistory().TakeLast(5);
-        foreach (var he in history)
-        {
-            AnsiConsole.MarkupLineInterpolated($"[bold #aaa]{he.Role}[/]\n[#fff]{he.Content}[/]\n");
-        }
-    }
-
 
     private static void InitApiKey(string? apiKey)
     {
