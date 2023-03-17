@@ -5,11 +5,11 @@ namespace ChatGptConsole.Commands;
 
 class HistoryCommand : Command
 {
-    private readonly CodeChat chat;
+    private readonly ChatStore store;
 
-    public HistoryCommand() : base("history")
+    public HistoryCommand(string chatKey) : base("history")
     {
-        chat = new CodeChat();
+        store = new ChatStore(chatKey);
 
         var tailOption = new Option<int?>(new string[] { "-t", "--tail" }, "show last n entries");
         AddOption(tailOption);
@@ -24,12 +24,12 @@ class HistoryCommand : Command
     {
         if (clear)
         {
-            chat.ClearHistory();
+            store.Clear();
             AnsiConsole.MarkupLine("[dim]History has been cleared.[/]");
             return;
         }
 
-        IEnumerable<OpenAi.Message> history = chat.GetHistory();
+        IEnumerable<OpenAi.Message> history = store.Load();
         if (tail is not null)
         {
             history = history.TakeLast(tail.Value);
